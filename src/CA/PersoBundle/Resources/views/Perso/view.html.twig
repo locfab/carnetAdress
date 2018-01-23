@@ -11,7 +11,9 @@
     <p>{{ perso.famille }}</p>
     <p>{{ perso.race }}</p>
 
-    {% if app.user.id == perso.id %}
-        <strong> <a href="{{ path('ca_perso_edit', {'id': perso.id})}}"> editez votre profil et uniquement votre profil </a></strong>
+    {% if app.user %}
+        {% if app.user.id == perso.id %}
+            <strong> <a href="{{ path('ca_perso_edit', {'id': perso.id})}}"> editez votre profil et uniquement votre profil </a></strong>
+        {% endif %}
     {% endif %}
 {% endblock %}

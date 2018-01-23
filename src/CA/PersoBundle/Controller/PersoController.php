@@ -2,6 +2,7 @@
 
 namespace CA\PersoBundle\Controller;
 
+use CA\PersoBundle\Entity\Friendship;
 use CA\PersoBundle\Entity\Perso;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -53,38 +54,33 @@ class PersoController extends Controller
             $request->getSession()->getFlashBag()->add("editPost", "voila une nouvelle edition");
             return $this->redirectToRoute('ca_perso_view', array('id' => $oldPerso->getId()));
         }
-
         return $this->render('CAPersoBundle:Perso:edit.html.twig', array('form' => $form->createView()));
     }
-}
-
-/*
 
 
-
-
-
+    public function addRemoveFriendAction($id)
+    {
+        $id1 = min($id,$this->getUser()->getId());
+        $id2 = max($id,$this->getUser()->getId());
         $em = $this->getDoctrine()->getManager();
-        $perso = $em->getRepository('CAPersoBundle:Perso')->find($id);
-
-        $form = $this->createFormBuilder(new Perso(),$perso)
-            ->add('age', IntegerType::class)
-            ->add('famille', TextType::class)
-            ->add('race', TextType::class)
-            ->add('nourriture', TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $perso = $form->getData();
-            $em->persist($perso);
+        $friend = $em->getRepository('CAPersoBundle:Friendship')->findOneBy(
+            array("friend1"  => $id1, "friend2"  => $id2)
+        );
+        if($friend)
+        {
+            $em->remove($friend);
             $em->flush();
-            $request->getSession()->getFlashBag()->add("editPost", "voila une nouvelle edition");
-            return $this->redirectToRoute('ca_perso_view', array('id' => $perso->getId()));
+        }
+        else
+        {
+            $friend = new Friendship();
+            $friend->setFriend1($id1);
+            $friend->setFriend2($id2);
+            $em->persist($friend);
+            $em->flush();
         }
 
-        return $this->render('CAPersoBundle:Post:edit.html.twig', array('form' => $form->createView()));
+
+        return $this->redirectToRoute('homepage');
     }
- */
+}

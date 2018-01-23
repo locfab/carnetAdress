@@ -13,3 +13,9 @@ ca_perso_edit:
     defaults: { _controller: CAPersoBundle:Perso:edit }
     requirements:
       id: \d
+
+ca_perso_add_friend:
+    path:     /add_remove_friend/{id}
+    defaults: { _controller: CAPersoBundle:Perso:addRemoveFriend }
+    requirements:
+      id: \d

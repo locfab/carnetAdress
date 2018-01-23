@@ -1,11 +1,16 @@
-{# templates/blog/index.html.twig #}
 {% extends 'CAPersoBundle::base.html.twig' %}
 
 {% block content %}
     <h1>Tous les perso</h1>
     {% for perso in persos %}
-        <h2><a href="{{ path('ca_perso_view', {'id': perso.id})  }}"> {{ perso.username }} </a></h2>
-    {% else %}
-        <p>Pas de posts</p>
+        <h2><a href="{{ path('ca_perso_view', {'id': perso.id})  }}"> {{ perso.username }} </a>
+        {% if app.user %}
+            {% if app.user.id != perso.id %}
+                <button> <a href="{{ path('ca_perso_add_friend', {'id': perso.id})}}"> add or remove friend </a></button>
+            {% endif %}
+            {% if app.user.id == perso.id %}
+                <div>  ca c'est moi!!! ICI ON PEUT EDITER</div></h2>
+            {% endif %}
+        {% endif %}
     {% endfor %}
 {% endblock %}
