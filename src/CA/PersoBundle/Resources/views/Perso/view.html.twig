@@ -1,0 +1,17 @@
+{# templates/blog/index.html.twig #}
+{% extends 'CAPersoBundle::base.html.twig' %}
+
+{% block content %}
+
+    <h1>perso {{ perso.username }}</h1>
+
+    <h2> description </h2>
+    <p>{{ perso.age }}</p>
+    <p>{{ perso.nourriture }}</p>
+    <p>{{ perso.famille }}</p>
+    <p>{{ perso.race }}</p>
+
+    {% if app.user.id == perso.id %}
+        <strong> <a href="{{ path('ca_perso_edit', {'id': perso.id})}}"> editez votre profil et uniquement votre profil </a></strong>
+    {% endif %}
+{% endblock %}

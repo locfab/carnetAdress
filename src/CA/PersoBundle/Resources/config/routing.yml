@@ -1,0 +1,15 @@
+ca_perso_homepage:
+    path:     /
+    defaults: { _controller: CAPersoBundle:Perso:index }
+
+ca_perso_view:
+    path:     /{id}
+    defaults: { _controller: CAPersoBundle:Perso:view }
+    requirements:
+      id: \d
+
+ca_perso_edit:
+    path:     /edit/{id}
+    defaults: { _controller: CAPersoBundle:Perso:edit }
+    requirements:
+      id: \d

@@ -1,0 +1,11 @@
+{# templates/blog/index.html.twig #}
+{% extends 'CAPersoBundle::base.html.twig' %}
+
+{% block content %}
+    <h1>Tous les perso</h1>
+    {% for perso in persos %}
+        <h2><a href="{{ path('ca_perso_view', {'id': perso.id})  }}"> {{ perso.username }} </a></h2>
+    {% else %}
+        <p>Pas de posts</p>
+    {% endfor %}
+{% endblock %}
