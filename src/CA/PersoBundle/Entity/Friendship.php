@@ -94,19 +94,7 @@ class Friendship
         return $this->friend2;
     }
 
-    public function getFriendship($id)
-    {
-        $id1 = min($id,$this->getUser()->getId());
-        $id2 = max($id,$this->getUser()->getId());
-        $em = $this->getDoctrine()->getManager();
-        $friend = $em->getRepository('CAPersoBundle:Friendship')->findOneBy(
-            array("friend1"  => $id1, "friend2"  => $id2)
-        );
-        if($friend)
-            return true;
-        else
-            return false;
-    }
+
 
 }
 

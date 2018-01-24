@@ -3,7 +3,11 @@
 namespace CA\PersoBundle\Controller;
 
 use CA\PersoBundle\Entity\Friendship;
+use CA\PersoBundle\Entity\Nourriture;
 use CA\PersoBundle\Entity\Perso;
+use CA\PersoBundle\Repository\FamilleRepository;
+use CA\PersoBundle\Repository\NourritureRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -35,26 +39,40 @@ class PersoController extends Controller
         $newPerso = new Perso();
         $form = $this->createFormBuilder($newPerso)
             ->add('age', IntegerType::class)
-            ->add('famille', TextType::class)
+            ->add('famille', EntityType::class, array(
+                'class'        => 'CAPersoBundle:Famille',
+                'choice_label' => 'name',
+                'multiple'     => false,
+                'expanded'     => false,
+            ))
             ->add('race', TextType::class)
-            ->add('nourriture', TextType::class)
-            ->add('save', SubmitType::class, array('label' => 'Create Task'))
+            ->add('nourriture', EntityType::class, array(
+                'class'         => 'CAPersoBundle:Nourriture',
+                'choice_label'  => 'name',
+                'multiple'      => true,
+                'expanded'     => false
+            ))
+            ->add('save', SubmitType::class, array('label' => 'EDIT/CREATE'))
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $newPerso = $form->getData();
-
             $oldPerso->setRace($newPerso->getRace());
-            $oldPerso->setNourriture($newPerso->getNourriture());
+
+            foreach($newPerso->getNourriture() as $nourriture)
+            {
+                $oldPerso->addNourriture($nourriture);
+            }
             $oldPerso->setAge($newPerso->getAge());
             $oldPerso->setFamille($newPerso->getFamille());
+            $em->persist($oldPerso);
             $em->flush();
-            $request->getSession()->getFlashBag()->add("editPost", "voila une nouvelle edition");
+            $request->getSession()->getFlashBag()->add("edit/create", "voila une nouvelle edition");
             return $this->redirectToRoute('ca_perso_view', array('id' => $oldPerso->getId()));
         }
-        return $this->render('CAPersoBundle:Perso:edit.html.twig', array('form' => $form->createView()));
+        return $this->render('CAPersoBundle:Perso:edit.html.twig', array('form' => $form->createView(), "oldPerso" => $oldPerso));
     }
 
 

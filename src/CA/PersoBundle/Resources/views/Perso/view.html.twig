@@ -7,8 +7,14 @@
 
     <h2> description </h2>
     <p>{{ perso.age }}</p>
-    <p>{{ perso.nourriture }}</p>
-    <p>{{ perso.famille }}</p>
+    {% for nourriture in perso.nourriture %}
+        {% if nourriture.name %}
+            <p> - {{ nourriture.name }}</p>
+        {% endif %}
+    {% endfor %}
+    {% if perso.famille and perso.famille.name %}
+        <p>{{ perso.famille.name }}</p>
+    {% endif %}
     <p>{{ perso.race }}</p>
 
     {% if app.user %}
