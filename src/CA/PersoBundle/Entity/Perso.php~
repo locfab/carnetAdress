@@ -2,6 +2,7 @@
 
 namespace CA\PersoBundle\Entity;
 
+use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
 
@@ -45,10 +46,29 @@ class Perso extends BaseUser
      */
     private $famille;
 
+    /**
+     * Many Users have Many Users.
+     * @ORM\ManyToMany(targetEntity="Perso", mappedBy="myFriends")
+     */
+    private $friendsWithMe;
+
+    /**
+     * Many Users have many Users.
+     * @ORM\ManyToMany(targetEntity="Perso", inversedBy="friendsWithMe")
+     * @ORM\JoinTable(name="friends",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $myFriends;
+
+
 
     public function __construct()
     {
         parent::__construct();
+        $this->friendsWithMe = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->myFriends = new \Doctrine\Common\Collections\ArrayCollection();
         // your own logic
     }
 
@@ -120,5 +140,62 @@ class Perso extends BaseUser
      * @return Perso
      */
 
-}
 
+    /**
+     * Add nourriture
+     *
+     * @param \CA\PersoBundle\Entity\Nourriture $nourriture
+     *
+     * @return Perso
+     */
+    public function addNourriture(\CA\PersoBundle\Entity\Nourriture $nourriture)
+    {
+        $this->nourriture[] = $nourriture;
+
+        return $this;
+    }
+
+    /**
+     * Remove nourriture
+     *
+     * @param \CA\PersoBundle\Entity\Nourriture $nourriture
+     */
+    public function removeNourriture(\CA\PersoBundle\Entity\Nourriture $nourriture)
+    {
+        $this->nourriture->removeElement($nourriture);
+    }
+
+    /**
+     * Get nourriture
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNourriture()
+    {
+        return $this->nourriture;
+    }
+
+    /**
+     * Set famille
+     *
+     * @param \CA\PersoBundle\Entity\Famille $famille
+     *
+     * @return Perso
+     */
+    public function setFamille(\CA\PersoBundle\Entity\Famille $famille = null)
+    {
+        $this->famille = $famille;
+
+        return $this;
+    }
+
+    /**
+     * Get famille
+     *
+     * @return \CA\PersoBundle\Entity\Famille
+     */
+    public function getFamille()
+    {
+        return $this->famille;
+    }
+}

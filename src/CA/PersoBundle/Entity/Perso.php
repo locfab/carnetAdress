@@ -46,10 +46,29 @@ class Perso extends BaseUser
      */
     private $famille;
 
+    /**
+     * Many Users have Many Users.
+     * @ORM\ManyToMany(targetEntity="Perso", mappedBy="myFriends")
+     */
+    private $friendsWithMe;
+
+    /**
+     * Many Users have many Users.
+     * @ORM\ManyToMany(targetEntity="Perso", inversedBy="friendsWithMe")
+     * @ORM\JoinTable(name="friends",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $myFriends;
+
+
 
     public function __construct()
     {
         parent::__construct();
+        $this->friendsWithMe = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->myFriends = new \Doctrine\Common\Collections\ArrayCollection();
         // your own logic
     }
 
@@ -178,5 +197,73 @@ class Perso extends BaseUser
     public function getFamille()
     {
         return $this->famille;
+    }
+
+    /**
+     * Add friendsWithMe
+     *
+     * @param \CA\PersoBundle\Entity\Perso $friendsWithMe
+     *
+     * @return Perso
+     */
+    public function addFriendsWithMe(\CA\PersoBundle\Entity\Perso $friendsWithMe)
+    {
+        $this->friendsWithMe[] = $friendsWithMe;
+
+        return $this;
+    }
+
+    /**
+     * Remove friendsWithMe
+     *
+     * @param \CA\PersoBundle\Entity\Perso $friendsWithMe
+     */
+    public function removeFriendsWithMe(\CA\PersoBundle\Entity\Perso $friendsWithMe)
+    {
+        $this->friendsWithMe->removeElement($friendsWithMe);
+    }
+
+    /**
+     * Get friendsWithMe
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFriendsWithMe()
+    {
+        return $this->friendsWithMe;
+    }
+
+    /**
+     * Add myFriend
+     *
+     * @param \CA\PersoBundle\Entity\Perso $myFriend
+     *
+     * @return Perso
+     */
+    public function addMyFriend(\CA\PersoBundle\Entity\Perso $myFriend)
+    {
+        $this->myFriends[] = $myFriend;
+
+        return $this;
+    }
+
+    /**
+     * Remove myFriend
+     *
+     * @param \CA\PersoBundle\Entity\Perso $myFriend
+     */
+    public function removeMyFriend(\CA\PersoBundle\Entity\Perso $myFriend)
+    {
+        $this->myFriends->removeElement($myFriend);
+    }
+
+    /**
+     * Get myFriends
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMyFriends()
+    {
+        return $this->myFriends;
     }
 }
