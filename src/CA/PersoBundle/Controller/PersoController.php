@@ -78,25 +78,12 @@ class PersoController extends Controller
 
     public function addRemoveFriendAction($id)
     {
-        $id1 = min($id,$this->getUser()->getId());
-        $id2 = max($id,$this->getUser()->getId());
         $em = $this->getDoctrine()->getManager();
-        $friend = $em->getRepository('CAPersoBundle:Friendship')->findOneBy(
-            array("friend1"  => $id1, "friend2"  => $id2)
-        );
-        if($friend)
-        {
-            $em->remove($friend);
-            $em->flush();
-        }
-        else
-        {
-            $friend = new Friendship();
-            $friend->setFriend1($id1);
-            $friend->setFriend2($id2);
-            $em->persist($friend);
-            $em->flush();
-        }
+        $friend = $em->getRepository('CAPersoBundle:Perso')->find($id);
+
+        $this->getUser()->addMyFriend($friend);
+        $em->flush();
+
 
 
         return $this->redirectToRoute('homepage');
