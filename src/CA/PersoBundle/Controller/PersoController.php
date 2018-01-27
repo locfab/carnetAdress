@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
@@ -34,45 +35,49 @@ class PersoController extends Controller
     }
     public function editAction($id, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $oldPerso = $em->getRepository('CAPersoBundle:Perso')->find($id);
-        $newPerso = new Perso();
-        $form = $this->createFormBuilder($newPerso)
-            ->add('age', IntegerType::class)
-            ->add('famille', EntityType::class, array(
-                'class'        => 'CAPersoBundle:Famille',
-                'choice_label' => 'name',
-                'multiple'     => false,
-                'expanded'     => false,
-            ))
-            ->add('race', TextType::class)
-            ->add('nourriture', EntityType::class, array(
-                'class'         => 'CAPersoBundle:Nourriture',
-                'choice_label'  => 'name',
-                'multiple'      => true,
-                'expanded'     => false
-            ))
-            ->add('save', SubmitType::class, array('label' => 'EDIT/CREATE'))
-            ->getForm();
+        if($this->getUser() and $this->getUser()->getId() == $id)
+        {
+            $em = $this->getDoctrine()->getManager();
+            $oldPerso = $em->getRepository('CAPersoBundle:Perso')->find($id);
+            $newPerso = new Perso();
+            $form = $this->createFormBuilder($newPerso)
+                ->add('age', IntegerType::class)
+                ->add('famille', EntityType::class, array(
+                    'class'        => 'CAPersoBundle:Famille',
+                    'choice_label' => 'name',
+                    'multiple'     => false,
+                    'expanded'     => false,
+                ))
+                ->add('race', TextType::class)
+                ->add('nourriture', EntityType::class, array(
+                    'class'         => 'CAPersoBundle:Nourriture',
+                    'choice_label'  => 'name',
+                    'multiple'      => true,
+                    'expanded'     => false
+                ))
+                ->add('save', SubmitType::class, array('label' => 'EDIT/CREATE'))
+                ->getForm();
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $newPerso = $form->getData();
-            $oldPerso->setRace($newPerso->getRace());
+            if ($form->isSubmitted() && $form->isValid()) {
+                $newPerso = $form->getData();
+                $oldPerso->setRace($newPerso->getRace());
 
-            foreach($newPerso->getNourriture() as $nourriture)
-            {
-                $oldPerso->addNourriture($nourriture);
+                foreach($newPerso->getNourriture() as $nourriture)
+                {
+                    $oldPerso->addNourriture($nourriture);
+                }
+                $oldPerso->setAge($newPerso->getAge());
+                $oldPerso->setFamille($newPerso->getFamille());
+                $em->persist($oldPerso);
+                $em->flush();
+                $request->getSession()->getFlashBag()->add("edit/create", "voila une nouvelle edition");
+                return $this->redirectToRoute('ca_perso_view', array('id' => $oldPerso->getId()));
             }
-            $oldPerso->setAge($newPerso->getAge());
-            $oldPerso->setFamille($newPerso->getFamille());
-            $em->persist($oldPerso);
-            $em->flush();
-            $request->getSession()->getFlashBag()->add("edit/create", "voila une nouvelle edition");
-            return $this->redirectToRoute('ca_perso_view', array('id' => $oldPerso->getId()));
+            return $this->render('CAPersoBundle:Perso:edit.html.twig', array('form' => $form->createView(), "oldPerso" => $oldPerso));
         }
-        return $this->render('CAPersoBundle:Perso:edit.html.twig', array('form' => $form->createView(), "oldPerso" => $oldPerso));
+        return $this->redirectToRoute('homepage');
     }
 
 
@@ -91,6 +96,8 @@ class PersoController extends Controller
 
     public function searchAction()
     {
-        return $this->render('CAPersoBundle:Perso:search.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $persos = $em->getRepository('CAPersoBundle:Perso')->findAll();
+        return $this->render('CAPersoBundle:Perso:search.html.twig', array("persos" => $persos));
     }
 }

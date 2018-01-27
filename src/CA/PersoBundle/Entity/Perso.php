@@ -63,7 +63,6 @@ class Perso extends BaseUser
     private $myFriends;
 
 
-
     public function __construct()
     {
         parent::__construct();
@@ -72,15 +71,6 @@ class Perso extends BaseUser
         // your own logic
     }
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set age
@@ -99,14 +89,12 @@ class Perso extends BaseUser
     /**
      * Get age
      *
-     * @return int
+     * @return integer
      */
     public function getAge()
     {
         return $this->age;
     }
-
-
 
     /**
      * Set race
@@ -131,15 +119,6 @@ class Perso extends BaseUser
     {
         return $this->race;
     }
-
-    /**
-     * Set nourriture
-     *
-     * @param string $nourriture
-     *
-     * @return Perso
-     */
-
 
     /**
      * Add nourriture
