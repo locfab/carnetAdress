@@ -96,8 +96,6 @@ class PersoController extends Controller
 
     public function searchAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $persos = $em->getRepository('CAPersoBundle:Perso')->findAll();
-        return $this->render('CAPersoBundle:Perso:search.html.twig', array("persos" => $persos));
+        return $this->render('CAPersoBundle:Perso:search.html.twig');
     }
 }

@@ -6,6 +6,7 @@
     <div ng-app="myApp" ng-controller="myController">
         <input type="text" ng-model="yourName">
         <div>
+            <p>faite votre recherche par username, exemple "antoinette", il y aura une liste déroulante</p>
             <ul>
                 <li ng-repeat="user in users | filter:{username:yourName} | orderBy:'username'">
                     [[ user.username ]]

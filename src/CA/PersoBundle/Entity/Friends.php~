@@ -1,0 +1,64 @@
+<?php
+
+namespace CA\PersoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Friends
+ *
+ * @ORM\Table(name="friends")
+ * @ORM\Entity(repositoryClass="CA\PersoBundle\Repository\FriendsRepository")
+ */
+class Friends
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     */
+    private $etat;
+
+
+    /**
+     * Many Users have Many Users.
+     * @ORM\ManyToMany(targetEntity="Perso", mappedBy="myFriends")
+     */
+    private $friendsWithMe;
+
+    /**
+     * Many Users have many Users.
+     * @ORM\ManyToMany(targetEntity="Perso", inversedBy="friendsWithMe")
+     * @ORM\JoinTable(name="friends",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friend_user_id", referencedColumnName="id")}
+     *      )
+     */
+    private $myFriends;
+
+
+    /**
+     * Set etat
+     *
+     * @param integer $etat
+     *
+     * @return Friends
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * Get etat
+     *
+     * @return integer
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+}

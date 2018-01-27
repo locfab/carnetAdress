@@ -7,17 +7,14 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">marsu</a>
+                    <div>marsu</div>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="{{ path("homepage") }}">acceuil</a></li>
-                        <li class="dropdown">
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ path("fos_user_security_login") }}">login</a></li>
-                                <li><a href="{{ path("fos_user_registration_register") }}">register</a></li>
-                            </ul>
-                        </li>
+                        <li><a href="{{ path("fos_user_registration_register") }}">register</a></li>
+                        <li><a href="{{ path("fos_user_security_login") }}">login</a></li>
+                        <li><a href="{{ path("ca_perso_search") }}">Angular + SEARCH_USER + API trouvee sur internet</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
