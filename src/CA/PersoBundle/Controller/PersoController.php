@@ -88,4 +88,9 @@ class PersoController extends Controller
 
         return $this->redirectToRoute('homepage');
     }
+
+    public function searchAction()
+    {
+        return $this->render('CAPersoBundle:Perso:search.html.twig');
+    }
 }

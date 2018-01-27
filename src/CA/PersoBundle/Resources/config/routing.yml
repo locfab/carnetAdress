@@ -19,3 +19,7 @@ ca_perso_add_friend:
     defaults: { _controller: CAPersoBundle:Perso:addRemoveFriend }
     requirements:
       id: \d
+
+ca_perso_search:
+    path:     /search
+    defaults: { _controller: CAPersoBundle:Perso:search }
