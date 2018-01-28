@@ -42,7 +42,8 @@ class Perso extends BaseUser
     private $nourriture;
 
     /**
-     * @ORM\OneToOne(targetEntity="CA\PersoBundle\Entity\Famille", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Famille", inversedBy="perso")
+     * @ORM\JoinColumn(name="famille_id", referencedColumnName="id")
      */
     private $famille;
 
@@ -244,5 +245,10 @@ class Perso extends BaseUser
     public function getMyFriends()
     {
         return $this->myFriends;
+    }
+
+    public function hasFriend(\CA\PersoBundle\Entity\Perso $myFriend)
+    {
+        return $this->myFriends->contains($myFriend);
     }
 }

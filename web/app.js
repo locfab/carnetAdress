@@ -4,8 +4,7 @@ var myApp = angular.module("myApp", [], function($interpolateProvider) {
 });
 
 var root = 'http://localhost:8888/carnetAdress/web/app_dev.php';
-
-
+//var root = 'https://jsonplaceholder.typicode.com';
 
 
 myApp.controller("myController", function ($scope) {
@@ -17,16 +16,3 @@ myApp.controller("myController", function ($scope) {
         //console.log(data)
     });
 });
-
-/*myApp.controller("myController", function ($scope) {
- $scope.users = [{"username":'def', 'age': "2"},{"username":'ijk', 'age': "3"}, {"username":'abc', 'age': "1"}];
- });
-*/
-angular.module('coursExoApp')
-    .factory('serviceAjax', function serviceAjax($http) {
-        return{
-            popular: function(page){
-                return $http.get("http://localhost:3000/popular?page=" + page);
-            }
-        }
-    });

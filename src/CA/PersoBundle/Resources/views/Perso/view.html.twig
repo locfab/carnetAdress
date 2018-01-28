@@ -20,6 +20,8 @@
     {% if app.user %}
         {% if app.user.id == perso.id %}
             <strong> <a href="{{ path('ca_perso_edit', {'id': perso.id})}}"> editez votre profil et uniquement votre profil </a></strong>
+        {% else %}
+            <button> <a href="{{ path('ca_perso_add_friend', {'id': perso.id})}}"> add or remove friend </a></button>
         {% endif %}
     {% endif %}
 {% endblock %}

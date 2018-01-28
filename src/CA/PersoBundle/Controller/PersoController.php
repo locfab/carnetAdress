@@ -86,10 +86,21 @@ class PersoController extends Controller
         $em = $this->getDoctrine()->getManager();
         $friend = $em->getRepository('CAPersoBundle:Perso')->find($id);
 
-        //JUSTE POUR L'EXEMPLE si on ajoute deux fois ca bug
-        $this->getUser()->addMyFriend($friend);
-        $em->flush();
-        //JUSTE POUR L'EXEMPLE si on ajoute deux fois ca bug
+        if($this->getUser()->hasFriend($friend))
+        {
+            $this->getUser()->removeMyFriend($friend);
+            $em->flush();
+        }
+        elseif ($friend->hasFriend($this->getUser()))
+        {
+            $friend->removeMyFriend($this->getUser());
+            $em->flush();
+        }
+        else
+        {
+            $this->getUser()->addMyFriend($friend);
+            $em->flush();
+        }
 
         return $this->redirectToRoute('homepage');
     }

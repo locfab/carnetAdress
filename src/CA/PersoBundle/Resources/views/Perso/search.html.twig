@@ -9,8 +9,7 @@
             <p>faite votre recherche par username, exemple "antoinette", il y aura une liste déroulante</p>
             <ul>
                 <li ng-repeat="user in users | filter:{username:yourName} | orderBy:'username'">
-                    <button> <a href="{{ path('ca_perso_add_friend', {'id': 1 })}}"> [[ user.username ]]</a></button>
-
+                    <button> <a href="{{path('homepage')}}[[ user.id ]]">[[ user.username ]]</a></button>
                 </li>
             </ul>
         </div>
