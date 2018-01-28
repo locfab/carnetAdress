@@ -1,19 +1,20 @@
 var myApp = angular.module("myApp", [], function($interpolateProvider) {
-    $interpolateProvider.startSymbol('[[');
-    $interpolateProvider.endSymbol(']]');
+    $interpolateProvider.startSymbol('[[').endSymbol(']]');
+
 });
 
-var root = 'https://jsonplaceholder.typicode.com';
+var root = 'http://localhost:8888/carnetAdress/web/app_dev.php';
 
 
 
 
 myApp.controller("myController", function ($scope) {
     $.ajax({
-        url: root + '/users',
+        url: root + '/persos',
         method: 'GET'
     }).then(function(data) {
         $scope.users = data;
+        //console.log(data)
     });
 });
 

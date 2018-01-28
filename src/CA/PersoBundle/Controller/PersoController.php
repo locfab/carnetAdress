@@ -98,4 +98,14 @@ class PersoController extends Controller
     {
         return $this->render('CAPersoBundle:Perso:search.html.twig');
     }
+
+    public function listAction()
+    {
+        $persos = $this->getDoctrine()->getRepository('CAPersoBundle:Perso')->findAll();
+        $data = $this->get('jms_serializer')->serialize($persos, 'json');
+        $response = new Response($data);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
 }

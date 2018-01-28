@@ -23,3 +23,7 @@ ca_perso_add_friend:
 ca_perso_search:
     path:     /search
     defaults: { _controller: CAPersoBundle:Perso:search }
+
+persos_list:
+    path:     /persos
+    defaults: { _controller: CAPersoBundle:Perso:list }
