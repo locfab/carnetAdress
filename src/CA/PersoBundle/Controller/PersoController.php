@@ -7,6 +7,7 @@ use CA\PersoBundle\Entity\Nourriture;
 use CA\PersoBundle\Entity\Perso;
 use CA\PersoBundle\Repository\FamilleRepository;
 use CA\PersoBundle\Repository\NourritureRepository;
+use JMS\Serializer\SerializationContext;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -15,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+
 
 
 class PersoController extends Controller
@@ -110,13 +113,23 @@ class PersoController extends Controller
         return $this->render('CAPersoBundle:Perso:search.html.twig');
     }
 
+    public function showAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $perso = $em->getRepository('CAPersoBundle:Perso')->find($id);
+        $data = $this->get('jms_serializer')->serialize($perso, 'json', SerializationContext::create()->setGroups(array('show')));
+        $response = new Response($data);
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
     public function listAction()
     {
         $persos = $this->getDoctrine()->getRepository('CAPersoBundle:Perso')->findAll();
-        $data = $this->get('jms_serializer')->serialize($persos, 'json');
+        $data = $this->get('jms_serializer')->serialize($persos, 'json', SerializationContext::create()->setGroups(array('list')));
         $response = new Response($data);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
-
 }

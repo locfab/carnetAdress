@@ -5,7 +5,7 @@ namespace CA\PersoBundle\Entity;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
-
+use JMS\Serializer\Annotation as Serializer;
 /**
  * Perso
  *
@@ -18,6 +18,7 @@ class Perso extends BaseUser
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Serializer\Groups({"list"})
      */
     protected $id;
 

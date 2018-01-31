@@ -27,3 +27,9 @@ ca_perso_search:
 persos_list:
     path:     /persos
     defaults: { _controller: CAPersoBundle:Perso:list }
+
+perso_list:
+    path:     /perso/{id}
+    defaults: { _controller: CAPersoBundle:Perso:show }
+    requirements:
+      id: \d
