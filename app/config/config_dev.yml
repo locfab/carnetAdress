@@ -39,3 +39,9 @@ monolog:
 
 #swiftmailer:
 #    delivery_addresses: ['me@example.com']
+
+services:
+    app.cors_perso:
+        class: CA\PersoBundle\Security\PersoListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }

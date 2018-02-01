@@ -37,4 +37,4 @@ services:
     serializer_listener.perso:
         class: CA\PersoBundle\Serializer\Listener\PersoListener
         tags:
-            - { name: jms_serializer.event_subscriber }
+            - { name: jms_serializer.event_subscriber}

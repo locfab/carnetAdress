@@ -6,6 +6,7 @@ use CA\PersoBundle\Entity\Perso;
 use JMS\Serializer\EventDispatcher\Events;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 
 class PersoListener implements EventSubscriberInterface
