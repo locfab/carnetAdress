@@ -10,48 +10,34 @@
 	<h1> {{monTitre}} </h1>
 
 	<input type="text" ng-model="yourName">
-	<div>
-		mon text : {{ yourName }} <br>
-		ma data : {{ users }}
-		<ul>
-			<li ng-repeat="user in users">
-				{{ user.username }}
-			</li>
-		</ul>
-	</div>
-  
+    <div>
+        <p>faite votre recherche par username, exemple "antoinette", il y aura une liste déroulante</p>
+        <ul>
+            <li ng-repeat="user in users | filter:{username:yourName} | orderBy:'username'">
+                <button> <a href="http://localhost:8888/carnetAdress/web/app_dev.php/{{ user.id }}"> {{ user.username }}</a></button>
+            </li>
+        </ul>
+    </div>
 </div>
 
 <script>
 
 	var root = 'http://localhost:8888/carnetAdress/web/app_dev.php/persoss';
-	
-	var app = angular.module('myApp', []);
-	app.controller('myController', function($scope, $http) {
 
-		/*$http({
-			method : "GET",
-			url : root
-		}).then(function mySuccess(response) {
-			$scope.users = response.data;
-			console.log("Ca marche");
-		}, function myError(response) {
-			$scope.users = response.statusText;
-			console.log("Ca marche pas");
-		});*/
-		
+	var app = angular.module('myApp', []);
+	app.controller('myController', function($scope, $http) {		
 		$http.get("http://localhost:8888/carnetAdress/web/app_dev.php/persos")
 		.then(function(response) {
 			$scope.users = response.data;
 			console.log("Ca marche");
 		});
-		
-		$scope.monTitre = "coucou fabrice";
+		$scope.monTitre = "coucou";
 
 	});
-
-
 </script>
 
 </body>
 </html>
+
+
+
