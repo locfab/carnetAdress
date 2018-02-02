@@ -1,16 +1,33 @@
 {% extends 'CAPersoBundle::base.html.twig' %}
 
 {% block content %}
-    <h1>Tous les perso</h1>
-    {% for perso in persos %}
-        <h2><a href="{{ path('ca_perso_view', {'id': perso.id})  }}"> {{ perso.username }} </a>
-        {% if app.user %}
-            {% if app.user.id != perso.id %}
-                <button> <a href="{{ path('ca_perso_add_friend', {'id': perso.id})}}"> add or remove friend </a></button>
-            {% endif %}
-            {% if app.user.id == perso.id %}
-                <div>  ca c'est moi!!! ICI ON PEUT EDITER</div></h2>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Tous les perso</h1>
+                    <div class="col-md-12">
+                        {% for perso in persos %}
+                            <div class="container">
+                                <div class="row">
+                                    <h2>
+                                        <a href="{{ path('ca_perso_view', {'id': perso.id})  }}"> {{ perso.username | capitalize }} </a>
+                                        {% if app.user %}
+                                            {% if app.user.id != perso.id %}
+                                                <small><span class="label label-info btn-md"><a href="{{ path('ca_perso_add_friend', {'id': perso.id})}}"> add or remove friend </a></span></small>
+                                            {% if app.user.hasFriend(perso) %}
+                                                    <div> friend</div>
+                                                {% endif %}
+                                            {% endif %}
+                                            {% if app.user.id == perso.id %}
+                                                <div>  Mooi!!</div>
+                                            {% endif %}
+                                        {% endif %}
+                                    </h2>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+        </div>
+    </div>
 {% endblock %}
