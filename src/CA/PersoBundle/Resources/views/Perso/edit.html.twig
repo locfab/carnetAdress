@@ -10,7 +10,20 @@
                         <div class="col-md-6 col-md-offset-1">
                             <div class="well">
                                 {{ form_start(form) }}
-                                {{ form_widget(form.age, {'value' : oldPerso.age}) }}
+
+                                <div>
+                                    {{ form_label(form.age, "Age") }}
+                                    {{ form_errors(form.age) }}
+                                    {{ form_widget(form.age, {'value' : oldPerso.age}) }}
+                                </div>
+
+                                <div>
+                                    {{ form_label(form.race, "Race") }}
+                                    {{ form_errors(form.race) }}
+                                    {{ form_widget(form.race, {'value' : oldPerso.race}) }}
+                                </div>
+
+
                                 {{ form_end(form) }}
                             </div>
                         </div>
