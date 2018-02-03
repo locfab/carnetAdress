@@ -13,7 +13,7 @@
                                         <a href="{{ path('ca_perso_view', {'id': perso.id})  }}"> {{ perso.username | capitalize }} </a>
                                         {% if app.user %}
                                             {% if app.user.id != perso.id %}
-                                                <small><span class="label label-info btn-md"><a href="{{ path('ca_perso_add_friend', {'id': perso.id})}}"> add or remove friend </a></span></small>
+                                                <button type="button" class="btn btn-primary btn-sm"><a href="{{ path('ca_perso_add_friend', {'id': perso.id})}}"> add or remove friend </a></button>
                                             {% if app.user.hasFriend(perso) %}
                                                     <div> friend</div>
                                                 {% endif %}

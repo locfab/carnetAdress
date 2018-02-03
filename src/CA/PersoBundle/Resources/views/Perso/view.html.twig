@@ -2,26 +2,41 @@
 {% extends 'CAPersoBundle::base.html.twig' %}
 
 {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>perso {{ perso.username }}</h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2> Description </h2>
+                            <p> Age : {{ perso.age }} </p>
+                            {% if perso.nourriture |length > 0 %}
+                                    <p> Nourriture : </p>
+                                {% for nourriture in perso.nourriture %}
+                                    {% if nourriture.name %}
+                                        <p>   - {{ nourriture.name }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <p> Pas de nourriture enregistrée</p>
+                            {% endif %}
+                            {% if perso.famille and perso.famille.name %}
+                                <p> Famille: {{ perso.famille.name }}</p>
+                            {% endif %}
+                            <p> Race : {{ perso.race }}</p>
 
-    <h1>perso {{ perso.username }}</h1>
-
-    <h2> description </h2>
-    <p>{{ perso.age }}</p>
-    {% for nourriture in perso.nourriture %}
-        {% if nourriture.name %}
-            <p> - {{ nourriture.name }}</p>
-        {% endif %}
-    {% endfor %}
-    {% if perso.famille and perso.famille.name %}
-        <p>{{ perso.famille.name }}</p>
-    {% endif %}
-    <p>{{ perso.race }}</p>
-
-    {% if app.user %}
-        {% if app.user.id == perso.id %}
-            <strong> <a href="{{ path('ca_perso_edit', {'id': perso.id})}}"> editez votre profil et uniquement votre profil </a></strong>
-        {% else %}
-            <button> <a href="{{ path('ca_perso_add_friend', {'id': perso.id})}}"> add or remove friend </a></button>
-        {% endif %}
-    {% endif %}
+                            {% if app.user %}
+                                {% if app.user.id == perso.id %}
+                                    <button type="button" class="btn btn-primary"> <a href="{{ path('ca_perso_edit', {'id': perso.id})}}"> editez Profil </a></button>
+                                {% else %}
+                                    <button type="button" class="btn btn-primary"> <a href="{{ path('ca_perso_add_friend', {'id': perso.id})}}"> add or remove friend </a></button>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

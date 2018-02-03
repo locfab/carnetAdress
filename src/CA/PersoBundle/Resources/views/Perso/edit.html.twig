@@ -1,10 +1,22 @@
 {% extends 'CAPersoBundle::base.html.twig' %}
 
 {% block content %}
-
-    <h1>Edit perso</h1>
-
-    {{ form_start(form) }}
-    {{ form_widget(form.age, {'value' : oldPerso.age}) }}
-    {{ form_end(form) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Edit perso</h1>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-1">
+                            <div class="well">
+                                {{ form_start(form) }}
+                                {{ form_widget(form.age, {'value' : oldPerso.age}) }}
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

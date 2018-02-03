@@ -4,14 +4,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
     <script src="{{ asset('app.js') }}"></script>
     <div ng-app="myApp" ng-controller="myController">
-        <input type="text" ng-model="yourName">
-        <div>
-            <p>faite votre recherche par username, exemple "antoinette", il y aura une liste déroulante</p>
-            <ul>
-                <li ng-repeat="user in users | filter:{username:yourName} | orderBy:'username'">
-                    <button> <a href="{{path('homepage')}}[[ user.id ]]">[[ user.username ]]</a></button>
-                </li>
-            </ul>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1> Recherche Perso</h1>
+                    <input type="text" ng-model="yourName">
+                    <ul>
+                        <li ng-repeat="user in users | filter:{username:yourName} | orderBy:'username'" style= "list-style-type: none">
+                            <button type="button" class="btn btn-primary btn-sm"><a href="{{path('homepage')}}[[ user.id ]]">[[ user.username ]] </a></button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
