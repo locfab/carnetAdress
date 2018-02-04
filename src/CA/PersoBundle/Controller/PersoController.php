@@ -49,18 +49,17 @@ class PersoController extends Controller
                     'class'        => 'CAPersoBundle:Famille',
                     'choice_label' => 'name',
                     'multiple'     => false,
-                    'expanded'     => false,
-                ))
+                    'expanded'     => false))
                 ->add('race', TextType::class)
                 ->add('nourriture', EntityType::class, array(
                     'class'         => 'CAPersoBundle:Nourriture',
                     'choice_label'  => 'name',
                     'multiple'      => true,
-                    'expanded'     => false
+                    'expanded'      => false,
                 ))
                 ->add('save', SubmitType::class, array('label' => 'EDIT/CREATE'))
                 ->getForm();
-
+            
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {

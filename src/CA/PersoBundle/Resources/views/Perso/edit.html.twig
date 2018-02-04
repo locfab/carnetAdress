@@ -23,7 +23,11 @@
                                     {{ form_widget(form.race, {'value' : oldPerso.race}) }}
                                 </div>
 
-
+                                <div>
+                                    {{ form_label(form.famille, "Famille") }}
+                                    {{ form_errors(form.famille) }}
+                                    {{ form_widget(form.famille, {'value' : oldPerso.famille.id | trans }) }}
+                                </div>
                                 {{ form_end(form) }}
                             </div>
                         </div>
